@@ -27,7 +27,7 @@
  body[data-tema="esc"] { --bg: var(--dark);   --ink: var(--blanco); --muted: var(--gris); --guide: var(--gray); --pill: var(--gray); }
  body[data-tema="tra"] { --bg: var(--negro);  --ink: var(--blanco); --muted: var(--gray); --guide: var(--dark); --pill: var(--dark); }
  .spec .g, .escala-base { transition: background-color .6s var(--ease); }
- body { padding: 28px 14% 56px; min-height: 100vh; }  /* 14 % de margen lateral */
+ body { padding: 28px 28px 56px; min-height: 100vh; }
  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
  /* ---------- Pestañas ---------- */
  .tabs { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -37,7 +37,7 @@
  .tab[aria-selected="true"] { color: var(--ink); border-color: var(--ink); }
  .tab:focus-visible, .fuente button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
  /* ---------- Paneles ---------- */
- .panel { display: grid; grid-template-columns: minmax(280px, 40%) 1fr; gap: 56px; padding: 64px 0 0; }
+ .panel { display: grid; grid-template-columns: minmax(280px, 40%) 1fr; gap: 56px; padding: 64px 0 0 36px; }
  .panel[hidden] { display: none; }
  .panel.entra { animation: entra .5s var(--ease); }
  @keyframes entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -59,16 +59,16 @@
  .spec .base { top: var(--base, 0); }
  .label { font-size: 14px; margin-top: 8px; color: var(--ink); }
  .label b { font-weight: 700; }
- .xl  { font-size: clamp(80px, 10vw, 160px); font-weight: 300; }
- .h1  { font-size: clamp(56px, 7vw, 110px); font-weight: var(--w-h1); }
- .h2  { font-size: clamp(36px, 4.2vw, 64px);   font-weight: var(--w-h2); }
+ .xl  { font-size: clamp(90px, 12vw, 176px); font-weight: 300; }
+ .h1  { font-size: clamp(64px, 8.6vw, 124px); font-weight: var(--w-h1); }
+ .h2  { font-size: clamp(40px, 5vw, 72px);   font-weight: var(--w-h2); }
  .bd  { font-size: clamp(26px, 2.7vw, 40px); font-weight: 400; }
  .ff  { font-family: var(--f); }
  body[data-fuente="sans"]  { --f: var(--sans);  --w-h1: 500; --w-h2: 500; }
  body[data-fuente="serif"] { --f: var(--serif); --w-h1: 400; --w-h2: 400; }
  /* Escala */
  .escala { position: relative; display: grid; grid-auto-flow: column; grid-template-rows: auto auto auto;
- justify-content: start; column-gap: clamp(14px, 2.4vw, 48px); padding: 0 0 0 32px; margin-top: 20px; }
+ justify-content: start; column-gap: clamp(20px, 3vw, 48px); padding: 0 0 0 32px; margin-top: 20px; }
  .escala .item { display: contents; }
  .escala .aa { line-height: 1; white-space: nowrap; font-family: var(--f); align-self: baseline; }
  .escala .x { font-size: 22px; font-weight: 500; margin-top: 18px; }
