@@ -6,3 +6,5 @@ Tarjetas interactivas del manual de marca de Ekos.
 - `ekos-tarjetas.svg` y `ekos-tarjeta-*.svg`: versiones SVG con hover.
 
 Para usar Areal, agrega `fonts/Areal-Regular.woff2` y `fonts/Areal-Bold.woff2` (revisa la licencia antes).
+
+Otras herramientas: notas.html, recursos.html, tipografias.html, logo-grises.html, arquitectura.html, reticula.html.
