@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ekos · Notas de composición</title>
+<!-- EKOS · Notas de composición (Jerarquía / Escala / Tracking). Altura recomendada del iframe: 1000 px -->
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@300,400,500&display=swap">
+<style>
+ /* Areal: coloca los archivos en la carpeta fonts/ con estos nombres */
+ @font-face { font-family: "Areal"; src: url("fonts/Areal-Light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+ @font-face { font-family: "Areal"; src: url("fonts/Areal-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+ @font-face { font-family: "Areal"; src: url("fonts/Areal-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+ @font-face { font-family: "Areal"; src: url("fonts/Areal-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+ :root {
+ --blanco: #F2F2F2; --gris: #C4C4C4; --gray: #787878; --dark: #333333; --negro: #000000;
+ --bg: var(--blanco); --ink: var(--negro); --muted: var(--gray); --guide: var(--gris);
+ --sans: "Areal", "ABC Areal", "Helvetica Neue", Helvetica, Arial, sans-serif;
+ --serif: "Sentient", Georgia, "Times New Roman", serif;
+ --ease: cubic-bezier(.2, .7, .2, 1);
+ }
+ * { box-sizing: border-box; margin: 0; }
+ html, body { background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased;
+ transition: background-color .6s var(--ease), color .6s var(--ease); }
+ /* Cada pestaña usa un tono distinto de la escala de grises de Ekos */
+ body[data-tema="jer"] { --bg: var(--blanco); --ink: var(--negro);  --muted: var(--gray); --guide: var(--gris); --pill: var(--gris); }
+ body[data-tema="esc"] { --bg: var(--dark);   --ink: var(--blanco); --muted: var(--gris); --guide: var(--gray); --pill: var(--gray); }
+ body[data-tema="tra"] { --bg: var(--negro);  --ink: var(--blanco); --muted: var(--gray); --guide: var(--dark); --pill: var(--dark); }
+ .spec .g, .escala-base { transition: background-color .6s var(--ease); }
+ body { padding: 28px 28px 56px; min-height: 100vh; }
+ button { font: inherit; color: inherit; background: none; cursor: pointer; }
+ /* ---------- Pestañas ---------- */
+ .tabs { display: flex; flex-wrap: wrap; gap: 10px; }
+ .tab { padding: 11px 26px; border: 1px solid var(--pill); border-radius: 999px; font-size: 17px; color: var(--muted);
+ transition: color .3s var(--ease), border-color .3s var(--ease); }
+ .tab:hover { color: var(--ink); }
+ .tab[aria-selected="true"] { color: var(--ink); border-color: var(--ink); }
+ .tab:focus-visible, .fuente button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+ /* ---------- Paneles ---------- */
+ .panel { display: grid; grid-template-columns: minmax(280px, 40%) 1fr; gap: 56px; padding: 64px 0 0 36px; }
+ .panel[hidden] { display: none; }
+ .panel.entra { animation: entra .5s var(--ease); }
+ @keyframes entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+ .notas h2 { font-weight: 500; font-size: 38px; letter-spacing: -.01em; line-height: 1.05; margin-bottom: 30px; }
+ .notas .seccion { font-size: 19px; margin-bottom: 24px; }
+ .notas h3 { font-weight: 700; font-size: 18px; margin: 26px 0 12px; }
+ .notas p { font-size: 18px; line-height: 1.38; max-width: 46ch; }
+ .notas p + p { margin-top: 14px; }
+ /* ---------- Muestras ---------- */
+ .muestras { min-width: 0; overflow: hidden; padding-top: 4px; }
+ .fuente { display: inline-flex; border: 1px solid var(--pill); border-radius: 999px; padding: 3px; margin-bottom: 34px; }
+ .fuente button { padding: 6px 16px; border-radius: 999px; font-size: 14px; color: var(--muted); transition: background .3s, color .3s; }
+ .fuente button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+ .spec { position: relative; margin-bottom: 4px; }
+ .spec .txt { display: block; white-space: nowrap; line-height: 1.12; padding: 0 0 0 32px; }
+ .spec .g { position: absolute; left: 0; right: 0; height: 1px; background: var(--guide); top: var(--y, 0); }
+ .spec .cap { top: var(--cap, 0); }
+ .spec .base { top: var(--base, 0); }
+ .label { font-size: 14px; margin-top: 8px; color: var(--ink); }
+ .label b { font-weight: 700; }
+ .xl  { font-size: clamp(90px, 12vw, 176px); font-weight: 300; }
+ .h1  { font-size: clamp(64px, 8.6vw, 124px); font-weight: var(--w-h1); }
+ .h2  { font-size: clamp(40px, 5vw, 72px);   font-weight: var(--w-h2); }
+ .bd  { font-size: clamp(26px, 2.7vw, 40px); font-weight: 400; }
+ .ff  { font-family: var(--f); }
+ body[data-fuente="sans"]  { --f: var(--sans);  --w-h1: 500; --w-h2: 500; }
+ body[data-fuente="serif"] { --f: var(--serif); --w-h1: 400; --w-h2: 400; }
+ /* Escala */
+ .escala { position: relative; display: flex; align-items: flex-end; gap: 4%; padding: 0 0 0 32px; margin-top: 20px; }
+ .escala .item { display: flex; flex-direction: column; }
+ .escala .aa { line-height: 1; white-space: nowrap; font-family: var(--f); }
+ .escala .x { font-size: 22px; font-weight: 500; margin-top: 18px; }
+ .escala .n { font-size: 14px; color: var(--muted); margin-top: 4px; }
+ .escala-base { position: absolute; left: 0; right: 0; height: 1px; background: var(--guide); }
+ .regla { margin-top: 56px; padding-left: 32px; font-size: 15px; color: var(--muted); }
+ @media (max-width: 860px) {
+ body { padding: 20px 16px 40px; }
+ .panel { grid-template-columns: 1fr; gap: 36px; padding: 40px 0 0; }
+ }
+ @media (prefers-reduced-motion: reduce) { .panel.entra { animation: none; } }
+</style>
+</head>
+<body data-fuente="sans" data-tema="jer">
+ <div class="tabs" role="tablist" aria-label="Notas de composición">
+ <button class="tab" role="tab" id="t-jer" aria-controls="p-jer" aria-selected="true">Jerarquía</button>
+ <button class="tab" role="tab" id="t-esc" aria-controls="p-esc" aria-selected="false" tabindex="-1">Escala</button>
+ <button class="tab" role="tab" id="t-tra" aria-controls="p-tra" aria-selected="false" tabindex="-1">Tracking</button>
+</div>
+ <!-- ================= JERARQUÍA ================= -->
+<section class="panel" id="p-jer" role="tabpanel" aria-labelledby="t-jer">
+ <div class="notas">
+ <h2>Notas de composición</h2>
+ <p class="seccion">Jerarquía</p>
+ <p>En Ekos los titulares pueden ir en Areal o en Sentient. Combínalos siguiendo las combinaciones tipográficas (1), (2) y (3).</p>
+ <h3>Titular XL</h3>
+ <p>Los titulares XL no aparecen en todas las piezas: se reservan para portadas de presentaciones y revistas, separadores y señalética.</p>
+ <p>Se componen en Areal Light o Sentient Light.</p>
+ <h3>Titular</h3>
+ <p>Para titulares de comunicación externa. Se componen en Areal Medium o Sentient Regular, siempre en tipo oración.</p>
+ <h3>Subtítulo</h3>
+ <p>Acompaña al titular y organiza el contenido. Areal Medium o Sentient Regular, en tipo oración.</p>
+ <h3>Texto corrido</h3>
+ <p>Areal Regular o Sentient Regular para párrafos, pies de foto y datos.</p>
+ </div>
+ <div class="muestras">
+ <div class="fuente" role="group" aria-label="Ver muestras en">
+ <button type="button" data-f="sans" aria-pressed="true">Areal</button>
+ <button type="button" data-f="serif" aria-pressed="false">Sentient</button>
+ </div>
+ <div class="spec"><i class="g cap"></i><i class="g base"></i><span class="txt ff xl">Titular XL</span></div>
+ <p class="label"><b data-n>Areal</b> Light</p>
+ <div class="spec" style="margin-top:56px"><i class="g cap"></i><i class="g base"></i><span class="txt ff h1">Titular</span></div>
+ <p class="label"><b data-n>Areal</b> <span data-w="Medium|Regular">Medium</span></p>
+ <div class="spec" style="margin-top:56px"><i class="g cap"></i><i class="g base"></i><span class="txt ff h2">Subtítulo</span></div>
+ <p class="label"><b data-n>Areal</b> <span data-w="Medium|Regular">Medium</span></p>
+ <div class="spec" style="margin-top:56px"><i class="g cap"></i><i class="g base"></i><span class="txt ff bd">Texto corrido</span></div>
+ <p class="label"><b data-n>Areal</b> Regular</p>
+ </div>
+</section>
+ <!-- ================= ESCALA ================= -->
+<section class="panel" id="p-esc" role="tabpanel" aria-labelledby="t-esc" hidden>
+ <div class="notas">
+ <h2>Notas de composición</h2>
+ <p class="seccion">Escala</p>
+ <h3>Regla 50/50</h3>
+ <p>El contraste de tamaño entre niveles es lo que hace visible la jerarquía. Cada nivel mide como máximo el 50 % del nivel inmediatamente superior.</p>
+ <p>Un subtítulo mide como máximo la mitad del titular, y el texto corrido, como máximo la mitad del subtítulo.</p>
+ <h3>Titular XL</h3>
+ <p>El titular XL mide al menos 5 veces la altura del texto corrido de la pieza. Siempre que el formato lo permita, busca un contraste mayor.</p>
+ </div>
+ <div class="muestras">
+ <div class="fuente" role="group" aria-label="Ver muestras en">
+ <button type="button" data-f="sans" aria-pressed="true">Areal</button>
+ <button type="button" data-f="serif" aria-pressed="false">Sentient</button>
+ </div>
+ <div class="escala" data-escala>
+ <i class="escala-base"></i>
+ <div class="item"><span class="aa" style="font-size:calc(var(--u) * 5);font-weight:300">Aa</span><span class="x">5X</span><span class="n">Titular XL</span></div>
+ <div class="item"><span class="aa" style="font-size:calc(var(--u) * 4);font-weight:var(--w-h1)">Aa</span><span class="x">4X</span><span class="n">Titular</span></div>
+ <div class="item"><span class="aa" style="font-size:calc(var(--u) * 2);font-weight:var(--w-h2)">Aa</span><span class="x">2X</span><span class="n">Subtítulo</span></div>
+ <div class="item"><span class="aa" style="font-size:var(--u);font-weight:400">Aa</span><span class="x">1X</span><span class="n">Texto corrido</span></div>
+ </div>
+ <p class="regla">Titular → subtítulo → texto corrido: cada nivel mide como máximo el 50 % del anterior.</p>
+ </div>
+</section>
+ <!-- ================= TRACKING ================= -->
+<section class="panel" id="p-tra" role="tabpanel" aria-labelledby="t-tra" hidden>
+ <div class="notas">
+ <h2>Notas de composición</h2>
+ <p class="seccion">Tracking</p>
+ <h3>Titulares, subtítulos y texto corrido</h3>
+ <p>El tracking es el espaciado uniforme entre las letras. En estos niveles se mantiene siempre en 0: nuestras fuentes ya vienen con el espaciado adecuado.</p>
+ <h3>Titular XL</h3>
+ <p>En titulares XL puede reducirse hasta -15 para que el texto no se vea suelto o con espacios demasiado abiertos. Revisa siempre que se siga leyendo bien.</p>
+ </div>
+ <div class="muestras">
+ <div class="fuente" role="group" aria-label="Ver muestras en">
+ <button type="button" data-f="sans" aria-pressed="true">Areal</button>
+ <button type="button" data-f="serif" aria-pressed="false">Sentient</button>
+ </div>
+ <div class="spec"><i class="g cap"></i><i class="g base"></i><span class="txt ff xl">Conocemos</span></div>
+ <p class="label"><b>Tracking 0</b> · Titulares, subtítulos y texto corrido</p>
+ <div class="spec" style="margin-top:56px"><i class="g cap"></i><i class="g base"></i><span class="txt ff xl" style="letter-spacing:-.015em">Conocemos</span></div>
+ <p class="label"><b>Tracking -15</b> · Solo titular XL</p>
+ </div>
+</section>
+ <script>
+(function () {
+ var tabs = [].slice.call(document.querySelectorAll('.tab'));
+ function select(t, focus) {
+ tabs.forEach(function (o) {
+ var on = o === t;
+ o.setAttribute('aria-selected', on); o.tabIndex = on ? 0 : -1;
+ var p = document.getElementById(o.getAttribute('aria-controls'));
+ p.hidden = !on;
+ if (on) { p.classList.remove('entra'); void p.offsetWidth; p.classList.add('entra'); }
+ });
+ document.body.dataset.tema = t.id.slice(2);
+ if (focus) t.focus();
+ guides();
+ }
+ tabs.forEach(function (t, i) {
+ t.addEventListener('click', function () { select(t); });
+ t.addEventListener('keydown', function (e) {
+ var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+ if (d) { e.preventDefault(); select(tabs[(i + d + tabs.length) % tabs.length], true); }
+ });
+ });
+ /* Selector Areal / Sentient (se comparte entre las tres pestañas) */
+ var NOMBRE = { sans: 'Areal', serif: 'Sentient' };
+ document.querySelectorAll('.fuente button').forEach(function (b) {
+ b.addEventListener('click', function () {
+ var f = b.dataset.f;
+ document.body.dataset.fuente = f;
+ document.querySelectorAll('.fuente button').forEach(function (o) { o.setAttribute('aria-pressed', o.dataset.f === f); });
+ document.querySelectorAll('[data-n]').forEach(function (n) { n.textContent = NOMBRE[f]; });
+ document.querySelectorAll('[data-w]').forEach(function (w) { w.textContent = w.dataset.w.split('|')[f === 'sans' ? 0 : 1]; });
+ guides();
+ });
+ });
+ /* Líneas guía: altura de mayúsculas y línea base, medidas sobre la fuente real */
+ var cv = document.createElement('canvas').getContext('2d');
+ function capH(el) {
+ var cs = getComputedStyle(el);
+ cv.font = cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily;
+ return cv.measureText('H').actualBoundingBoxAscent;
+ }
+ function baselineIn(el, ref) {
+ var m = document.createElement('i');
+ m.style.cssText = 'display:inline-block;width:0;height:0';
+ el.appendChild(m);
+ var y = m.getBoundingClientRect().top - ref.getBoundingClientRect().top;
+ el.removeChild(m);
+ return y;
+ }
+ function guides() {
+ document.querySelectorAll('.panel:not([hidden]) .spec').forEach(function (s) {
+ var t = s.querySelector('.txt'), b = baselineIn(t, s);
+ s.style.setProperty('--base', b + 'px');
+ s.style.setProperty('--cap', (b - capH(t)) + 'px');
+ });
+ document.querySelectorAll('.panel:not([hidden]) [data-escala]').forEach(function (e) {
+ e.style.setProperty('--u', Math.max(14, Math.min(40, e.clientWidth / 20)) + 'px');
+ e.querySelector('.escala-base').style.top = baselineIn(e.querySelector('.aa'), e) + 'px';
+ });
+ }
+ window.addEventListener('resize', guides);
+ if (document.fonts && document.fonts.ready) document.fonts.ready.then(guides);
+ guides();
+})();
+</script>
+</body>
+</html>
