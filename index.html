@@ -5,185 +5,190 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ekos · Combinaciones tipográficas</title>
 <!-- EKOS · Combinaciones tipográficas. Documento completo para un iframe de Standards.
-     Altura recomendada del iframe: 720 px (en pantallas angostas las tarjetas pasan a carrusel). -->
+ Altura recomendada del iframe: 720 px (en pantallas angostas las tarjetas pasan a carrusel). -->
 <!-- Sentient (Fontshare, gratuita) -->
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@400,500&display=swap">
-
-<style>
-  html, body { margin: 0; padding: 0; background: transparent; color-scheme: light; }
-  /* Areal: coloca los archivos en la carpeta fonts/ con estos nombres */
-  @font-face { font-family: "Areal"; src: url("fonts/Areal-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-  @font-face { font-family: "Areal"; src: url("fonts/Areal-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
-
-  .ekos-tipo {
-    /* Paleta Ekos */
-    --blanco: #F2F2F2;
-    --gris: #C4C4C4;
-    --gray: #787878;
-    --dark: #333333;
-    --negro: #000000;
-
-    --ekos-sans: "Areal", "ABC Areal", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --ekos-serif: "Sentient", Georgia, "Times New Roman", serif;
-    --ease: cubic-bezier(.2, .7, .2, 1);
-
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    box-sizing: border-box;
-    min-height: 100vh;
-    padding: 16px 2px 12px;  /* aire para que la tarjeta suba en hover */
-    font-family: var(--ekos-sans);
-    -webkit-font-smoothing: antialiased;
-  }
-  .ekos-tipo *, .ekos-tipo *::before, .ekos-tipo *::after { box-sizing: border-box; margin: 0; }
-
-  /* ---------- Tarjeta ---------- */
-  .ekos-tipo .card {
-    --t: var(--ekos-sans);   /* título */
-    --s: var(--ekos-sans);   /* subtítulo */
-    --b: var(--ekos-sans);   /* cuerpo */
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-height: 600px;
-    padding: 36px 32px 30px;
-    background: var(--bg);
-    color: var(--fg);
-    border: 1px solid var(--line);
-    outline: none;
-    cursor: default;
-    transition: color .45s var(--ease), background-color .45s var(--ease),
-                border-color .45s var(--ease), transform .45s var(--ease);
-  }
-  /* Hover / foco / toque: el texto pasa al tono de mayor contraste */
-  .ekos-tipo .card:hover,
-  .ekos-tipo .card:focus-visible,
-  .ekos-tipo .card.is-active {
-    --fg: var(--fg-on);
-    --line: var(--line-on);
-    background: var(--bg-on);
-    transform: translateY(-4px);
-  }
-
-  /* (1) Moderno · Areal / Areal / Areal */
-  .ekos-tipo .c1 { --bg: var(--blanco); --fg: var(--gray); --line: var(--gris);
-                   --bg-on: var(--blanco); --fg-on: var(--negro); --line-on: var(--gray); }
-  /* (2) Intermedio · Areal / Sentient / Areal */
-  .ekos-tipo .c2 { --s: var(--ekos-serif);
-                   --bg: var(--gray); --fg: var(--gris); --line: var(--gray);
-                   --bg-on: var(--gray); --fg-on: var(--blanco); --line-on: var(--gris); }
-  /* (3) Serio · Sentient / Areal / Sentient */
-  .ekos-tipo .c3 { --t: var(--ekos-serif); --b: var(--ekos-serif);
-                   --bg: var(--negro); --fg: var(--gray); --line: var(--negro);
-                   --bg-on: var(--negro); --fg-on: var(--blanco); --line-on: var(--dark); }
-
-  /* ---------- Encabezado ---------- */
-  .ekos-tipo .head { display: flex; justify-content: space-between; align-items: flex-start; }
-  .ekos-tipo .num  { font-family: var(--ekos-serif); font-size: 44px; line-height: 1; font-weight: 400; }
-  .ekos-tipo .tono { font-size: 13px; letter-spacing: .02em; padding-top: 6px; }
-
-  .ekos-tipo .specs { list-style: none; padding: 0; margin-top: 28px; font-size: 15px; line-height: 1.55; }
-  .ekos-tipo .specs b { font-weight: 700; }
-
-  .ekos-tipo hr { border: 0; border-top: 1px solid currentColor; opacity: .35; margin: 28px 0 32px; }
-
-  /* ---------- Muestra ---------- */
-  .ekos-tipo .muestra { display: flex; flex-direction: column; gap: 18px; flex: 1; }
-  .ekos-tipo .titulo  { font-family: var(--t); font-weight: 400; font-size: clamp(40px, 4.4vw, 68px);
-                        line-height: .92; letter-spacing: -.015em; }
-  .ekos-tipo .sub     { font-family: var(--s); font-weight: 400; font-size: clamp(18px, 1.6vw, 24px); line-height: 1.15; }
-  .ekos-tipo .cuerpo  { font-family: var(--b); font-weight: 400; font-size: 13px; line-height: 1.4; max-width: 30ch; }
-
-  /* ---------- Escala Moderno → Serio ---------- */
-  .ekos-tipo .escala { display: flex; align-items: center; gap: 12px; margin-top: 32px; font-size: 12px; }
-  .ekos-tipo .barra  { position: relative; flex: 1; height: 1px; background: currentColor; opacity: .5; }
-  .ekos-tipo .barra i { position: absolute; top: 50%; left: var(--pos); width: 9px; height: 9px; border-radius: 50%;
-                        background: currentColor; transform: translate(-50%, -50%); }
-  .ekos-tipo .c1 .barra { --pos: 0%; }
-  .ekos-tipo .c2 .barra { --pos: 50%; }
-  .ekos-tipo .c3 .barra { --pos: 100%; }
-
-  /* Iframe angosto: carrusel horizontal para que la altura no cambie */
-  @media (max-width: 900px) {
-    .ekos-tipo { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(280px, 82%);
-                 overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
-    .ekos-tipo::-webkit-scrollbar { display: none; }
-    .ekos-tipo .card { scroll-snap-align: start; }
-    .ekos-tipo .titulo { font-size: clamp(40px, 12vw, 64px); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .ekos-tipo .card { transition: none; transform: none !important; }
-  }
+ <style>
+ html, body { margin: 0; padding: 0; background: transparent; color-scheme: light; }
+ /* Areal: coloca los archivos en la carpeta fonts/ con estos nombres */
+ @font-face { font-family: "Areal"; src: url("fonts/Areal-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+ @font-face { font-family: "Areal"; src: url("fonts/Areal-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+ .ekos-tipo {
+ --blanco: #F2F2F2;
+ --gris: #C4C4C4;
+ --gray: #787878;
+ --dark: #333333;
+ --negro: #000000;
+ --ekos-sans: "Areal", "ABC Areal", "Helvetica Neue", Helvetica, Arial, sans-serif;
+ --ekos-serif: "Sentient", Georgia, "Times New Roman", serif;
+ --ease: cubic-bezier(.2, .7, .2, 1);
+ display: grid;
+ grid-template-columns: repeat(3, minmax(0, 1fr));
+ gap: 20px;
+ box-sizing: border-box;
+ min-height: 100vh;
+ padding: 16px 2px 12px;
+ font-family: var(--ekos-sans);
+ -webkit-font-smoothing: antialiased;
+ }
+ .ekos-tipo *, .ekos-tipo *::before, .ekos-tipo *::after { box-sizing: border-box; margin: 0; }
+ .ekos-tipo .card {
+ --t: var(--ekos-sans);
+ --s: var(--ekos-sans);
+ --b: var(--ekos-sans);
+ position: relative;
+ display: flex;
+ flex-direction: column;
+ min-height: 600px;
+ padding: 36px 32px 30px;
+ background: var(--bg);
+ color: var(--fg);
+ border: 1px solid var(--line);
+ outline: none;
+ cursor: default;
+ transition: color .45s var(--ease), background-color .45s var(--ease),
+ border-color .45s var(--ease), transform .45s var(--ease);
+ }
+ /* Hover / foco / toque: el texto pasa al tono de mayor contraste */
+ .ekos-tipo .card:hover,
+ .ekos-tipo .card:focus-visible,
+ .ekos-tipo .card.is-active {
+ --fg: var(--fg-on);
+ --line: var(--line-on);
+ background: var(--bg-on);
+ transform: translateY(-4px);
+ }
+ /* (1) Moderno · Areal / Areal / Areal */
+ .ekos-tipo .c1 { --bg: var(--blanco); --fg: var(--gray); --line: var(--gris);
+ --bg-on: var(--blanco); --fg-on: var(--negro); --line-on: var(--gray); }
+ /* (2) Intermedio · Areal / Sentient / Areal */
+ .ekos-tipo .c2 { --s: var(--ekos-serif);
+ --bg: var(--gray); --fg: var(--gris); --line: var(--gray);
+ --bg-on: var(--gray); --fg-on: var(--blanco); --line-on: var(--gris); }
+ /* (3) Serio · Sentient / Areal / Sentient */
+ .ekos-tipo .c3 { --t: var(--ekos-serif); --b: var(--ekos-serif);
+ --bg: var(--negro); --fg: var(--gray); --line: var(--negro);
+ --bg-on: var(--negro); --fg-on: var(--blanco); --line-on: var(--dark); }
+ .ekos-tipo .head { display: flex; justify-content: space-between; align-items: flex-start; }
+ .ekos-tipo .num  { font-family: var(--ekos-serif); font-size: 44px; line-height: 1; font-weight: 400; }
+ .ekos-tipo .tono { font-size: 13px; letter-spacing: .02em; padding-top: 6px; }
+ .ekos-tipo .specs { list-style: none; padding: 0; margin-top: 28px; font-size: 15px; line-height: 1.55; }
+ .ekos-tipo .specs b { font-weight: 700; }
+ .ekos-tipo hr { border: 0; border-top: 1px solid currentColor; opacity: .35; margin: 28px 0 32px; }
+ .ekos-tipo .muestra { display: flex; flex-direction: column; gap: 18px; flex: 1; }
+ .ekos-tipo .titulo  { font-family: var(--t); font-weight: 400; font-size: clamp(40px, 4.4vw, 68px);
+ line-height: .92; letter-spacing: -.015em; }
+ .ekos-tipo .sub     { font-family: var(--s); font-weight: 400; font-size: clamp(18px, 1.6vw, 24px); line-height: 1.15; }
+ .ekos-tipo .cuerpo  { font-family: var(--b); font-weight: 400; font-size: 13px; line-height: 1.4; max-width: 30ch; }
+ /* Casos de uso (aparecen en hover) */
+ .ekos-tipo .zona { position: relative; flex: 1; display: flex; flex-direction: column; }
+ .ekos-tipo .muestra, .ekos-tipo .usos { transition: opacity .35s var(--ease), transform .5s var(--ease); }
+ .ekos-tipo .usos { position: absolute; inset: 0; opacity: 0; transform: translateY(12px); pointer-events: none; }
+ .ekos-tipo .card:hover .muestra, .ekos-tipo .card:focus-visible .muestra, .ekos-tipo .card.is-active .muestra { opacity: 0; transform: translateY(-12px); }
+ .ekos-tipo .card:hover .usos, .ekos-tipo .card:focus-visible .usos, .ekos-tipo .card.is-active .usos { opacity: 1; transform: none; }
+ .ekos-tipo .usos h4 { font-family: var(--t); font-weight: 400; font-size: 34px; line-height: 1; letter-spacing: -.01em; margin-bottom: 20px; }
+ .ekos-tipo .usos ul { list-style: none; padding: 0; }
+ .ekos-tipo .usos li { display: grid; grid-template-columns: 104px 1fr; gap: 12px; align-items: baseline; padding: 13px 0;
+ border-top: 1px solid color-mix(in srgb, currentColor 35%, transparent); }
+ .ekos-tipo .usos li b { font-weight: 700; font-size: 14px; }
+ .ekos-tipo .usos li span { font-family: var(--s); font-size: 20px; line-height: 1.2; }
+ .ekos-tipo .escala { display: flex; align-items: center; gap: 12px; margin-top: 32px; font-size: 12px; }
+ .ekos-tipo .barra  { position: relative; flex: 1; height: 1px; background: currentColor; opacity: .5; }
+ .ekos-tipo .barra i { position: absolute; top: 50%; left: var(--pos); width: 9px; height: 9px; border-radius: 50%;
+ background: currentColor; transform: translate(-50%, -50%); }
+ .ekos-tipo .c1 .barra { --pos: 0%; }
+ .ekos-tipo .c2 .barra { --pos: 50%; }
+ .ekos-tipo .c3 .barra { --pos: 100%; }
+ @media (max-width: 900px) {
+ .ekos-tipo { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(280px, 82%);
+ overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+ .ekos-tipo::-webkit-scrollbar { display: none; }
+ .ekos-tipo .card { scroll-snap-align: start; }
+ .ekos-tipo .titulo { font-size: clamp(40px, 12vw, 64px); }
+ }
+ @media (prefers-reduced-motion: reduce) {
+ .ekos-tipo .card, .ekos-tipo .muestra, .ekos-tipo .usos { transition: none; transform: none !important; }
+ }
 </style>
-
-</head>
+ </head>
 <body>
 <div class="ekos-tipo" role="list" aria-label="Combinaciones tipográficas de Ekos">
-
-  <article class="card c1" role="listitem" tabindex="0">
-    <div class="head"><span class="num">(1)</span><span class="tono">Moderno</span></div>
-    <ul class="specs">
-      <li><b>Título:</b> Areal</li>
-      <li><b>Subtítulo:</b> Areal</li>
-      <li><b>Cuerpo de texto:</b> Areal</li>
-    </ul>
-    <hr>
-    <div class="muestra">
-      <h3 class="titulo">Core<br>Business</h3>
-      <p class="sub">Somos la plataforma de negocios donde se decide tu hoy y tu mañana.</p>
-      <p class="cuerpo">Ayudamos a quienes toman decisiones a crear negocios rentables, duraderos y respetuosos con la gente y el entorno.</p>
-    </div>
-    <div class="escala"><span>Moderno</span><span class="barra"><i></i></span><span>Serio</span></div>
-  </article>
-
-  <article class="card c2" role="listitem" tabindex="0">
-    <div class="head"><span class="num">(2)</span><span class="tono">Intermedio</span></div>
-    <ul class="specs">
-      <li><b>Título:</b> Areal</li>
-      <li><b>Subtítulo:</b> Sentient</li>
-      <li><b>Cuerpo de texto:</b> Areal</li>
-    </ul>
-    <hr>
-    <div class="muestra">
-      <h3 class="titulo">Core<br>Business</h3>
-      <p class="sub">Somos la plataforma de negocios donde se decide tu hoy y tu mañana.</p>
-      <p class="cuerpo">Ayudamos a quienes toman decisiones a crear negocios rentables, duraderos y respetuosos con la gente y el entorno.</p>
-    </div>
-    <div class="escala"><span>Moderno</span><span class="barra"><i></i></span><span>Serio</span></div>
-  </article>
-
-  <article class="card c3" role="listitem" tabindex="0">
-    <div class="head"><span class="num">(3)</span><span class="tono">Serio</span></div>
-    <ul class="specs">
-      <li><b>Título:</b> Sentient</li>
-      <li><b>Subtítulo:</b> Areal</li>
-      <li><b>Cuerpo de texto:</b> Sentient</li>
-    </ul>
-    <hr>
-    <div class="muestra">
-      <h3 class="titulo">Core<br>Business</h3>
-      <p class="sub">Somos la plataforma de negocios donde se decide tu hoy y tu mañana.</p>
-      <p class="cuerpo">Ayudamos a quienes toman decisiones a crear negocios rentables, duraderos y respetuosos con la gente y el entorno.</p>
-    </div>
-    <div class="escala"><span>Moderno</span><span class="barra"><i></i></span><span>Serio</span></div>
-  </article>
-
+ <article class="card c1" role="listitem" tabindex="0">
+ <div class="head"><span class="num">(1)</span><span class="tono">Moderno</span></div>
+ <ul class="specs">
+ <li><b>Título:</b> Areal</li>
+ <li><b>Subtítulo:</b> Areal</li>
+ <li><b>Cuerpo de texto:</b> Areal</li>
+ </ul>
+ <hr>
+ <div class="zona">
+ <div class="muestra">
+ <h3 class="titulo">Core<br>Business</h3>
+ <p class="sub">Somos la plataforma de negocios donde se decide tu hoy y tu mañana.</p>
+ <p class="cuerpo">Ayudamos a quienes toman decisiones a crear negocios rentables, duraderos y respetuosos con la gente y el entorno.</p>
+ </div>
+ <div class="usos" aria-label="Casos de uso">
+ <h4>Casos de uso</h4>
+ <ul><li><b>Print</b><span>Construcción</span></li><li><b>Networking</b><span>Según el caso</span></li><li><b>Alianzas</b><span>Según el caso</span></li></ul>
+ </div>
+ </div>
+ <div class="escala"><span>Moderno</span><span class="barra"><i></i></span><span>Serio</span></div>
+ </article>
+ <article class="card c2" role="listitem" tabindex="0">
+ <div class="head"><span class="num">(2)</span><span class="tono">Intermedio</span></div>
+ <ul class="specs">
+ <li><b>Título:</b> Areal</li>
+ <li><b>Subtítulo:</b> Sentient</li>
+ <li><b>Cuerpo de texto:</b> Areal</li>
+ </ul>
+ <hr>
+ <div class="zona">
+ <div class="muestra">
+ <h3 class="titulo">Core<br>Business</h3>
+ <p class="sub">Somos la plataforma de negocios donde se decide tu hoy y tu mañana.</p>
+ <p class="cuerpo">Ayudamos a quienes toman decisiones a crear negocios rentables, duraderos y respetuosos con la gente y el entorno.</p>
+ </div>
+ <div class="usos" aria-label="Casos de uso">
+ <h4>Casos de uso</h4>
+ <ul><li><b>Print</b><span>Woman in Business</span></li><li><b>Digital</b><span>Ekos Brands</span></li><li><b>Networking</b><span>Según el caso</span></li><li><b>Alianzas</b><span>Según el caso</span></li></ul>
+ </div>
+ </div>
+ <div class="escala"><span>Moderno</span><span class="barra"><i></i></span><span>Serio</span></div>
+ </article>
+ <article class="card c3" role="listitem" tabindex="0">
+ <div class="head"><span class="num">(3)</span><span class="tono">Serio</span></div>
+ <ul class="specs">
+ <li><b>Título:</b> Sentient</li>
+ <li><b>Subtítulo:</b> Areal</li>
+ <li><b>Cuerpo de texto:</b> Sentient</li>
+ </ul>
+ <hr>
+ <div class="zona">
+ <div class="muestra">
+ <h3 class="titulo">Core<br>Business</h3>
+ <p class="sub">Somos la plataforma de negocios donde se decide tu hoy y tu mañana.</p>
+ <p class="cuerpo">Ayudamos a quienes toman decisiones a crear negocios rentables, duraderos y respetuosos con la gente y el entorno.</p>
+ </div>
+ <div class="usos" aria-label="Casos de uso">
+ <h4>Casos de uso</h4>
+ <ul><li><b>Print</b><span>Revista Ekos</span></li><li><b>Digital</b><span>Ekos Today</span></li><li><b>Networking</b><span>Según el caso</span></li><li><b>Alianzas</b><span>Según el caso</span></li></ul>
+ </div>
+ </div>
+ <div class="escala"><span>Moderno</span><span class="barra"><i></i></span><span>Serio</span></div>
+ </article>
 </div>
-
 <script>
-  /* En pantallas táctiles no hay hover: un toque activa la tarjeta. */
-  (function () {
-    var cards = document.querySelectorAll(".ekos-tipo .card");
-    if (!window.matchMedia("(hover: none)").matches) return;
-    cards.forEach(function (c) {
-      c.addEventListener("click", function () {
-        var on = !c.classList.contains("is-active");
-        cards.forEach(function (o) { o.classList.remove("is-active"); });
-        if (on) c.classList.add("is-active");
-      });
-    });
-  })();
+ (function () {
+ var cards = document.querySelectorAll(".ekos-tipo .card");
+ if (!window.matchMedia("(hover: none)").matches) return;
+ cards.forEach(function (c) {
+ c.addEventListener("click", function () {
+ var on = !c.classList.contains("is-active");
+ cards.forEach(function (o) { o.classList.remove("is-active"); });
+ if (on) c.classList.add("is-active");
+ });
+ });
+ })();
 </script>
 </body>
 </html>

@@ -10,14 +10,18 @@
 .card .ink  { fill: currentColor; }
 .card .rule { stroke: currentColor; }
 .card .frame { transition: stroke .45s cubic-bezier(.2,.7,.2,1); }
+.card .muestra, .card .usos { transition: opacity .35s cubic-bezier(.2,.7,.2,1), transform .5s cubic-bezier(.2,.7,.2,1); }
+.card .usos { opacity: 0; transform: translateY(12px); }
 .card:hover, .card:focus { transform: translateY(-4px); }
+.card:hover .muestra, .card:focus .muestra { opacity: 0; transform: translateY(-12px); }
+.card:hover .usos, .card:focus .usos { opacity: 1; transform: none; }
 .c1 { color: #787878; } .c1 .frame { fill: #F2F2F2; stroke: #C4C4C4; }
 .c1:hover { color: #000000; } .c1:hover .frame { stroke: #787878; }
 .c2 { color: #C4C4C4; } .c2 .frame { fill: #787878; stroke: #787878; }
 .c2:hover { color: #F2F2F2; } .c2:hover .frame { stroke: #C4C4C4; }
 .c3 { color: #787878; } .c3 .frame { fill: #000000; stroke: #000000; }
 .c3:hover { color: #F2F2F2; } .c3:hover .frame { stroke: #333333; }
-@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .card, .card .muestra, .card .usos { transition: none; } .card:hover { transform: none; } }
 </style>
 <g class="card c2" tabindex="0" role="img" aria-label="Combinación 2: Intermedio">
 <rect class="frame" x="0.5" y="10.5" width="439" height="639" stroke-width="1"/>
@@ -27,6 +31,7 @@
 <text class="ink sans" x="32" y="165" font-size="15"><tspan font-weight="700">Subtítulo:</tspan> Sentient</text>
 <text class="ink sans" x="32" y="188" font-size="15"><tspan font-weight="700">Cuerpo de texto:</tspan> Areal</text>
 <line class="rule" x1="32" y1="220.5" x2="408" y2="220.5" stroke-width="1" stroke-opacity=".35"/>
+<g class="muestra">
 <text class="ink sans" x="32" y="314" font-size="60" font-weight="400" letter-spacing="-0.9">Core</text>
 <text class="ink sans" x="32" y="369.2" font-size="60" font-weight="400" letter-spacing="-0.9">Business</text>
 <text class="ink serif" x="32" y="421.2" font-size="22" font-weight="400">Somos la plataforma de</text>
@@ -35,6 +40,22 @@
 <text class="ink sans" x="32" y="514.2" font-size="13" font-weight="400">Ayudamos a quienes toman decisiones a</text>
 <text class="ink sans" x="32" y="532.2" font-size="13" font-weight="400">crear negocios rentables, duraderos y</text>
 <text class="ink sans" x="32" y="550.2" font-size="13" font-weight="400">respetuosos con la gente y el entorno.</text>
+</g>
+<g class="usos">
+<text class="ink sans" x="32" y="290" font-size="34" font-weight="400" letter-spacing="-0.3">Casos de uso</text>
+<line class="rule" x1="32" y1="314.5" x2="408" y2="314.5" stroke-width="1" stroke-opacity=".35"/>
+<text class="ink sans" x="32" y="346" font-size="14" font-weight="700">Print</text>
+<text class="ink serif" x="148" y="347" font-size="20" font-weight="400">Woman in Business</text>
+<line class="rule" x1="32" y1="366.5" x2="408" y2="366.5" stroke-width="1" stroke-opacity=".35"/>
+<text class="ink sans" x="32" y="398" font-size="14" font-weight="700">Digital</text>
+<text class="ink serif" x="148" y="399" font-size="20" font-weight="400">Ekos Brands</text>
+<line class="rule" x1="32" y1="418.5" x2="408" y2="418.5" stroke-width="1" stroke-opacity=".35"/>
+<text class="ink sans" x="32" y="450" font-size="14" font-weight="700">Networking</text>
+<text class="ink serif" x="148" y="451" font-size="20" font-weight="400">Según el caso</text>
+<line class="rule" x1="32" y1="470.5" x2="408" y2="470.5" stroke-width="1" stroke-opacity=".35"/>
+<text class="ink sans" x="32" y="502" font-size="14" font-weight="700">Alianzas</text>
+<text class="ink serif" x="148" y="503" font-size="20" font-weight="400">Según el caso</text>
+</g>
 <text class="ink sans" x="32" y="618" font-size="12" font-weight="400">Moderno</text>
 <text class="ink sans" x="408" y="618" font-size="12" font-weight="400" text-anchor="end">Serio</text>
 <line class="rule" x1="92" y1="614.5" x2="364" y2="614.5" stroke-width="1" stroke-opacity=".5"/>
