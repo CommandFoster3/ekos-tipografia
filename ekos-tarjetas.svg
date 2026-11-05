@@ -58,10 +58,10 @@
 <line class="rule" x1="92" y1="614.5" x2="364" y2="614.5" stroke-width="1" stroke-opacity=".5"/>
 <circle class="ink" cx="92" cy="614.5" r="4.5"/>
 </g>
-<g class="card c2" tabindex="0" role="img" aria-label="Combinación 2: Intermedio">
+<g class="card c2" tabindex="0" role="img" aria-label="Combinación 2: Semi casual">
 <rect class="frame" x="464.5" y="10.5" width="439" height="639" stroke-width="1"/>
 <text class="ink serif" x="496" y="88" font-size="44" font-weight="400">(2)</text>
-<text class="ink sans" x="872" y="68" font-size="13" font-weight="400" text-anchor="end">Intermedio</text>
+<text class="ink sans" x="872" y="68" font-size="13" font-weight="400" text-anchor="end">Semi casual</text>
 <text class="ink sans" x="496" y="142" font-size="15"><tspan font-weight="700">Título:</tspan> Areal</text>
 <text class="ink sans" x="496" y="165" font-size="15"><tspan font-weight="700">Subtítulo:</tspan> Sentient</text>
 <text class="ink sans" x="496" y="188" font-size="15"><tspan font-weight="700">Cuerpo de texto:</tspan> Areal</text>

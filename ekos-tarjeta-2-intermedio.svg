@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="440" height="650" viewBox="0 0 440 650">
-<title>Ekos · Combinación 2 · Intermedio</title>
+<title>Ekos · Combinación 2 · Semi casual</title>
 <style>
 @import url('https://api.fontshare.com/v2/css?f[]=sentient@400,500&amp;display=swap');
 @font-face { font-family: "Areal"; src: url("fonts/Areal-Regular.woff2") format("woff2"); font-weight: 400; }
@@ -23,10 +23,10 @@
 .c3:hover { color: #F2F2F2; } .c3:hover .frame { stroke: #333333; }
 @media (prefers-reduced-motion: reduce) { .card, .card .muestra, .card .usos { transition: none; } .card:hover { transform: none; } }
 </style>
-<g class="card c2" tabindex="0" role="img" aria-label="Combinación 2: Intermedio">
+<g class="card c2" tabindex="0" role="img" aria-label="Combinación 2: Semi casual">
 <rect class="frame" x="0.5" y="10.5" width="439" height="639" stroke-width="1"/>
 <text class="ink serif" x="32" y="88" font-size="44" font-weight="400">(2)</text>
-<text class="ink sans" x="408" y="68" font-size="13" font-weight="400" text-anchor="end">Intermedio</text>
+<text class="ink sans" x="408" y="68" font-size="13" font-weight="400" text-anchor="end">Semi casual</text>
 <text class="ink sans" x="32" y="142" font-size="15"><tspan font-weight="700">Título:</tspan> Areal</text>
 <text class="ink sans" x="32" y="165" font-size="15"><tspan font-weight="700">Subtítulo:</tspan> Sentient</text>
 <text class="ink sans" x="32" y="188" font-size="15"><tspan font-weight="700">Cuerpo de texto:</tspan> Areal</text>
