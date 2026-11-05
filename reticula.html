@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ekos · Retícula</title>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=sentient@300,400&display=swap">
+<style>
+/* EKOS · Retícula (márgenes, columnas y medianiles). Altura recomendada del iframe: 860 px
+   Areal: coloca los archivos en la carpeta fonts/ con estos nombres (mismo sistema que las otras herramientas). */
+@font-face{font-family:"Areal"; src:url("fonts/Areal-Regular.woff2") format("woff2"); font-weight:400; font-display:swap}
+@font-face{font-family:"Areal"; src:url("fonts/Areal-Medium.woff2") format("woff2"); font-weight:500; font-display:swap}
+@font-face{font-family:"Areal"; src:url("fonts/Areal-Bold.woff2") format("woff2"); font-weight:700; font-display:swap}
+:root{
+  --blanco:#F2F2F2; --gris:#C4C4C4; --gray:#787878; --dark:#333333; --negro:#000000;
+  --bg:var(--blanco); --ink:var(--negro); --muted:var(--gray); --rule:var(--gris);
+  --stage:var(--gris);  --paper:var(--blanco); --ekos:var(--negro);
+  --tint:color-mix(in srgb, var(--gris) 55%, var(--blanco));
+  --line:var(--gray); --warn:var(--dark); --hover:transparent;
+  --f-sans:"Areal","ABC Areal","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --f-serif:"Sentient",Georgia,"Times New Roman",serif;
+  --f-mono:var(--f-sans);
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:light;
+}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--f-sans); font-size:14px; -webkit-font-smoothing:antialiased}
+button,input,select{font:inherit; color:inherit}
+button{background:none; border:0; cursor:pointer}
+.app{height:100%; display:grid; grid-template-rows:auto minmax(0,1fr); gap:22px; padding:28px}
+header{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+.brand{display:flex; align-items:baseline; gap:14px; margin-right:auto; flex-wrap:wrap}
+.brand h1{font-family:var(--f-sans); font-size:38px; font-weight:500; letter-spacing:-.01em; margin:0; line-height:1}
+.brand span{color:var(--muted); font-size:15px}
+.btn{border:1px solid var(--rule); border-radius:999px; padding:10px 22px; display:inline-flex; align-items:center; gap:6px; line-height:1.1; white-space:nowrap; color:var(--muted); font-size:15px; transition:color .3s var(--ease), border-color .3s var(--ease)}
+.btn:hover{color:var(--ink); border-color:var(--ink)}
+.btn.primary{color:var(--ink); border-color:var(--ink)}
+.btn:focus-visible,.ex:focus-visible,.seg button:focus-visible,input:focus-visible{outline:2px solid var(--ink); outline-offset:3px}
+
+.work{display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:28px; min-height:0}
+.stage{background:var(--stage); position:relative; min-height:0; overflow:hidden}
+#svg{position:absolute; inset:0; width:100%; height:100%; display:block}
+#copy{position:absolute; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; color:var(--ink); pointer-events:none}
+#copy h3{margin:0; font-family:var(--f-serif); font-weight:400; letter-spacing:-.015em; line-height:1.02; text-wrap:balance}
+#copy p{margin:0; font-weight:400; line-height:1.3; max-width:34ch}
+.chip{position:absolute; left:16px; top:16px; font-size:13px; color:var(--ink)}
+
+.insp{overflow-y:auto; min-height:0; border-top:1px solid var(--ink)}
+.insp section{padding:18px 0; border-bottom:1px solid var(--rule); display:grid; gap:12px}
+.insp section:last-child{border-bottom:0}
+.insp h2{font-size:15px; color:var(--ink); margin:0; font-weight:700; display:flex; justify-content:space-between; align-items:baseline; gap:8px}
+.insp h2 em{font-style:normal; color:var(--muted); font-weight:400; font-size:14px; text-align:right}
+.hint{font-size:13px; color:var(--muted); margin:0; line-height:1.45}
+
+.stats{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px}
+.stat{display:grid; gap:4px; min-width:0}
+.stat small{font-size:13px; color:var(--muted)}
+.stat b{font-weight:500; font-size:30px; letter-spacing:-.02em; line-height:1; font-variant-numeric:tabular-nums; white-space:nowrap}
+.stat b i{font-style:normal; font-size:13px; color:var(--muted); letter-spacing:0; margin-left:3px; font-weight:400}
+.stat span{font-size:12.5px; color:var(--muted)}
+.tag{display:inline-flex; font-size:13px; color:var(--muted); width:max-content; max-width:100%; border-bottom:1px solid var(--rule); padding-bottom:2px}
+.kv{display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px 12px; margin:0; font-size:13px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0; text-align:right; font-variant-numeric:tabular-nums}
+
+.exs{display:grid}
+.ex{display:grid; grid-template-columns:44px minmax(0,1fr) auto; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid var(--rule); text-align:left; color:var(--muted); transition:color .3s var(--ease)}
+.ex:last-child{border-bottom:0}
+.ex:hover{color:var(--ink)}
+.ex[aria-pressed="true"]{color:var(--ink)}
+.ex svg{width:44px; height:34px; display:block}
+.ex .t{display:grid; gap:2px; min-width:0}
+.ex .t strong{font-weight:500; font-size:14px; line-height:1.25}
+.ex .t small{font-size:12px}
+.ex .m{font-size:12px; font-variant-numeric:tabular-nums; white-space:nowrap; text-align:right; line-height:1.5}
+
+.fields{display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:10px; align-items:end}
+.fields label{display:grid; gap:4px; font-size:13px; color:var(--muted)}
+.fields input{width:100%; border:0; border-bottom:1px solid var(--rule); background:transparent; padding:6px 0; font-size:15px; border-radius:0}
+.fields input:focus{border-bottom-color:var(--ink); outline:none}
+.swap{height:36px; width:36px; padding:0; justify-content:center}
+.seg{display:flex; flex-wrap:wrap; gap:8px}
+.seg button{border:1px solid var(--rule); border-radius:999px; padding:7px 14px; font-size:14px; color:var(--muted); min-width:0; transition:color .3s var(--ease), border-color .3s var(--ease)}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{color:var(--ink); border-color:var(--ink)}
+.row{display:grid; grid-template-columns:90px minmax(0,1fr) 44px; align-items:center; gap:10px}
+.row label{font-size:14px}
+.row output{font-size:13px; text-align:right; color:var(--muted)}
+input[type=range]{width:100%; accent-color:var(--ink); margin:0}
+.checks{display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center}
+.checks label{display:flex; gap:8px; align-items:center; font-size:14px; cursor:pointer}
+.checks input{accent-color:var(--ink)}
+.toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--ink); color:var(--blanco); padding:10px 18px; border-radius:999px; font-size:14px; z-index:20; max-width:calc(100% - 32px)}
+
+@media (max-width: 880px){
+  html,body{height:auto}
+  .app{height:auto; padding:16px}
+  .work{grid-template-columns:minmax(0,1fr)}
+  .stage{height:62vh; min-height:360px}
+  .insp{overflow:visible}
+  .brand h1{font-size:30px}
+}
+@media (prefers-reduced-motion: reduce){ *{animation:none!important; transition:none!important} }
+</style>
+
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand"><h1>Retícula</h1><span>Ekos · márgenes, columnas y medianiles</span></div>
+    <button class="btn primary" id="bCopy">Copiar especificaciones</button>
+  </header>
+
+  <div class="work">
+    <div class="stage" id="stage">
+      <svg id="svg" aria-label="Vista previa de la pieza con su retícula"></svg>
+      <div id="copy"><h3 id="hl"></h3><p id="note"></p></div>
+      <span class="chip" id="chip"></span>
+    </div>
+
+    <aside class="insp">
+      <section>
+        <h2>Resultado <em id="docName"></em></h2>
+        <div class="stats">
+          <div class="stat"><small>Margen</small><b id="sM"></b><span id="sMsub"></span></div>
+          <div class="stat"><small>Columnas</small><b id="sC"></b><span id="sCsub"></span></div>
+          <div class="stat"><small>Medianil</small><b id="sG"></b><span id="sGsub"></span></div>
+        </div>
+        <span class="tag" id="corrTag" hidden>Margen reducido por corrección óptica</span>
+        <dl class="kv" id="kv"></dl>
+      </section>
+
+      <section>
+        <h2>Vista</h2>
+        <div class="seg" id="viewSeg" role="group" aria-label="Vista">
+          <button data-v="margenes">Márgenes</button><button data-v="columnas">Columnas</button><button data-v="medianiles">Medianiles</button><button data-v="completa">Completa</button>
+        </div>
+        <div class="checks"><label><input type="checkbox" id="vText" checked> Texto de ejemplo</label></div>
+      </section>
+
+      <section>
+        <h2>Ejemplos</h2>
+        <div class="exs" id="exs"></div>
+        <p class="hint">* Los márgenes de Leaderboard Display y Skyscraper Display se han reducido por corrección óptica.</p>
+      </section>
+
+      <section>
+        <h2>Tamaño personalizado</h2>
+        <div class="fields">
+          <label for="iW">Ancho<input id="iW" type="number" min="0" step="any" inputmode="decimal"></label>
+          <button class="btn swap" id="bSwap" title="Girar: intercambiar ancho y alto" aria-label="Intercambiar ancho y alto">⇄</button>
+          <label for="iH">Alto<input id="iH" type="number" min="0" step="any" inputmode="decimal"></label>
+        </div>
+        <div class="seg mono" id="unitSeg" role="group" aria-label="Unidad">
+          <button data-u="px">px</button><button data-u="in">in</button><button data-u="mm">mm</button><button data-u="cm">cm</button>
+        </div>
+        <div class="checks"><label><input type="checkbox" id="cCorr"> Corrección óptica del margen</label></div>
+        <div class="row" id="factorRow"><label for="rFactor">Reducción</label><input type="range" id="rFactor" min="40" max="90" step="5"><output id="oFactor"></output></div>
+        <p class="hint" id="corrHint"></p>
+      </section>
+
+      <section>
+        <h2>Columnas</h2>
+        <div class="seg mono" id="colSeg" role="group" aria-label="Número de columnas">
+          <button data-c="2">2</button><button data-c="4">4</button><button data-c="6">6</button><button data-c="8">8</button><button data-c="10">10</button><button data-c="12">12</button>
+        </div>
+        <p class="hint">Se trazan en incrementos de 2, hasta un máximo de 12. Las piezas angostas suelen usar de 2 a 4; los formatos anchos, entre 6 y 12. La información compleja necesita más columnas.</p>
+      </section>
+
+      <section>
+        <h2>Medianil</h2>
+        <div class="row"><label for="rGut">% del margen</label><input type="range" id="rGut" min="50" max="100" step="5"><output id="oGut"></output></div>
+        <p class="hint">Entre el 50 % y el 100 % del margen. El 50 % sirve para la mayoría de piezas; los formatos muy anchos pueden necesitar más.</p>
+      </section>
+    </aside>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+
+/* Valores de las tablas del manual */
+const PRESETS=[
+  {id:'ppt', name:'PowerPoint o video 16:9', w:1920, h:1080, unit:'px', m:80,  cols:12},
+  {id:'sq',  name:'Post cuadrado para redes', w:1080, h:1080, unit:'px', m:45,  cols:4},
+  {id:'pdf', name:'Informe impreso / PDF',    w:8.5,  h:11,   unit:'in', m:0.5, cols:6},
+  {id:'lb',  name:'Leaderboard Display',      w:728,  h:90,   unit:'px', m:16,  cols:8, star:true},
+  {id:'sk',  name:'Skyscraper Display',       w:120,  h:600,  unit:'px', m:12,  cols:2, star:true},
+];
+const STEP={px:1, in:0.125, mm:0.5, cm:0.05};
+const GSTEP={px:0.5, in:0.0625, mm:0.5, cm:0.05};
+const RATIO_LIMIT=3;
+const TEXTS={
+  margenes:['Nuestro margen es igual al lado más largo del documento dividido entre 24.','En formatos muy anchos o muy altos, el margen puede reducirse un poco para dejar espacio al contenido.'],
+  columnas:['Las columnas se trazan en incrementos de 2, hasta un máximo de 12.','Las piezas angostas suelen usar de 2 a 4 columnas; los formatos anchos, entre 6 y 12.'],
+  medianiles:['Nuestro medianil mide entre el 50 % y el 100 % de nuestro margen.','Los formatos más anchos pueden necesitar medianiles más grandes por corrección óptica. Si tienes dudas, empieza en 50 % y aumenta según haga falta.'],
+  completa:['La retícula es nuestro punto de partida.','Ya sea una presentación de varias páginas o un correo simple, siempre empezamos por la retícula.'],
+};
+
+const st={preset:'ppt', w:1920, h:1080, unit:'px', corr:false, factor:50, corrTouched:false,
+  cols:12, colsTouched:false, gut:50, view:'completa', text:true};
+try{const s=JSON.parse(localStorage.getItem('ekos-reticula-v1')||'null'); if(s&&s.w&&s.h) Object.assign(st,s);}catch(e){}
+
+const num=(v,d=3)=>String(Math.round(v*10**d)/10**d);
+const roundTo=(v,step)=>Math.max(step, Math.round(v/step)*step);
+const fmt=(v,u)=>num(v, u==='px'?2:3)+' '+u;
+function gcd(a,b){return b?gcd(b,a%b):a}
+function ratioLabel(w,h){
+  for(const [a,b] of [[16,9],[9,16],[1,1],[4,5],[5,4],[3,2],[2,3],[4,3],[3,4]]) if(Math.abs(w/h-a/b)<.005) return a+':'+b;
+  if(Number.isInteger(w)&&Number.isInteger(h)){const g=gcd(w,h); if(w/g<=50&&h/g<=50) return (w/g)+':'+(h/g)}
+  const r=Math.max(w,h)/Math.min(w,h); return w>=h? num(r,2)+':1' : '1:'+num(r,2);
+}
+function suggestCols(w,h){const r=w/h; return r<.5?2 : r<1.2?4 : r<1.5?8 : r<3?12 : 8;}
+
+function calc(){
+  const {w,h,unit}=st, long=Math.max(w,h), short=Math.min(w,h), ratio=long/short, base=long/24;
+  const p=PRESETS.find(x=>x.id===st.preset);
+  let m, corrected, official=false;
+  if(p){ m=p.m; corrected=!!p.star; official=true; }
+  else { corrected=st.corr; m=roundTo(base*(corrected?st.factor/100:1), STEP[unit]); }
+  const g=roundTo(m*st.gut/100, GSTEP[unit]);
+  const n=st.cols, cw=w-2*m, ch=h-2*m, colW=(cw-(n-1)*g)/n;
+  return {w,h,unit,long,short,ratio,base,m,corrected,official,p,g,n,cw,ch,colW};
+}
+
+/* ---------- panel ---------- */
+function thumb(p){
+  const s=30/Math.max(p.w,p.h), W=p.w*s, H=p.h*s, x=(44-W)/2, y=(34-H)/2, M=Math.max(1,p.m*s);
+  const cw=W-2*M, G=Math.max(.6,p.m*.5*s), cwid=(cw-(p.cols-1)*G)/p.cols;
+  let cols=''; if(cwid>.4) for(let i=0;i<p.cols;i++) cols+=`<rect x="${x+M+i*(cwid+G)}" y="${y+M}" width="${cwid}" height="${Math.max(0,H-2*M)}" fill="var(--tint)"/>`;
+  return `<svg viewBox="0 0 44 34" aria-hidden="true"><rect x="${x}" y="${y}" width="${W}" height="${H}" fill="var(--paper)" stroke="var(--ekos)" stroke-width="1"/>${cols}</svg>`;
+}
+function buildExamples(){
+  $('exs').innerHTML=PRESETS.map(p=>`<button class="ex" data-id="${p.id}" aria-pressed="false">${thumb(p)}
+    <span class="t"><strong>${p.name}${p.star?'*':''}</strong><small>${num(p.w)} × ${num(p.h)} ${p.unit}</small></span>
+    <span class="m">${num(p.m)} ${p.unit}<br>${p.cols} col</span></button>`).join('');
+  $('exs').addEventListener('click',e=>{
+    const b=e.target.closest('.ex'); if(!b) return;
+    const p=PRESETS.find(x=>x.id===b.dataset.id);
+    Object.assign(st,{preset:p.id, w:p.w, h:p.h, unit:p.unit, corr:!!p.star, corrTouched:false, cols:p.cols, colsTouched:false});
+    syncInputs(); update();
+  });
+}
+function press(segId,attr,val){ $(segId).querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset[attr]===String(val)))); }
+function syncInputs(){
+  $('iW').value=num(st.w); $('iH').value=num(st.h);
+  press('unitSeg','u',st.unit); press('colSeg','c',st.cols); press('viewSeg','v',st.view);
+  $('cCorr').checked=st.corr; $('vText').checked=st.text;
+  $('rFactor').value=st.factor; $('oFactor').value=st.factor+'%';
+  $('rGut').value=st.gut; $('oGut').value=st.gut+'%';
+}
+function customChanged(){
+  st.preset=null;
+  const r=Math.max(st.w,st.h)/Math.min(st.w,st.h);
+  if(!st.corrTouched) st.corr=r>=RATIO_LIMIT;
+  if(!st.colsTouched) st.cols=suggestCols(st.w,st.h);
+  syncInputs(); update();
+}
+
+function updatePanel(c){
+  const u=c.unit;
+  $('docName').textContent=c.p? c.p.name : 'Formato personalizado';
+  $('sM').innerHTML=`${num(c.m)}<i>${u}</i>`;
+  $('sMsub').textContent=c.official? 'del manual' : (c.corrected? `${st.factor}% de ÷24` : 'lado largo ÷ 24');
+  $('sC').textContent=c.n;
+  $('sCsub').textContent=(c.p && c.n===c.p.cols)? 'del manual' : (st.colsTouched? 'elegidas' : 'sugeridas');
+  $('sG').innerHTML=`${num(c.g)}<i>${u}</i>`;
+  $('sGsub').textContent=`${st.gut}% del margen`;
+  $('corrTag').hidden=!c.corrected;
+  const rows=[
+    ['Tamaño', `${num(c.w)} × ${num(c.h)} ${u}`],
+    ['Proporción', ratioLabel(c.w,c.h)],
+    ['Lado más largo ÷ 24', fmt(c.base,u)],
+    ['Área útil', c.cw>0&&c.ch>0? `${num(c.cw)} × ${num(c.ch)} ${u}` : 'sin espacio'],
+    ['Ancho de columna', c.colW>0? fmt(c.colW,u) : 'no caben'],
+  ];
+  if(u==='in') rows.push(['Margen en mm', num(c.m*25.4,1)+' mm']);
+  if(u==='mm'||u==='cm') rows.push(['Margen en pulgadas', num((u==='mm'?c.m:c.m*10)/25.4,3)+' in']);
+  $('kv').innerHTML=rows.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
+  $('exs').querySelectorAll('.ex').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.id===st.preset)));
+  $('factorRow').hidden=!(st.corr && !c.official);
+  $('corrHint').textContent = c.official
+    ? (c.corrected? 'Este formato usa el margen reducido que indica el manual.' : 'Este formato usa el margen del manual: lado más largo ÷ 24.')
+    : c.ratio>=RATIO_LIMIT
+      ? `Formato muy ${c.w>c.h?'ancho':'alto'} (${num(c.ratio,1)}:1). Conviene reducir el margen para dejar espacio al contenido. El porcentaje es una referencia; ajústalo a ojo.`
+      : 'En piezas muy anchas o muy altas el margen puede reducirse un poco.';
+  $('chip').textContent=`X = ${num(c.m)} ${u} · ${c.n} col · medianil ${num(c.g)} ${u}`;
+}
+
+/* ---------- lámina ---------- */
+function update(){
+  const c=calc(); updatePanel(c); draw(c);
+  try{localStorage.setItem('ekos-reticula-v1', JSON.stringify(st))}catch(e){}
+}
+function txt(x,y,s,size,anchor='middle',fill='var(--ink)'){
+  return `<text x="${x}" y="${y}" font-family="${getComputedStyle(document.body).fontFamily.replace(/"/g,"'")}" font-size="${size}" fill="${fill}" text-anchor="${anchor}" dominant-baseline="central">${s}</text>`;
+}
+function draw(c){
+  const stage=$('stage'), SW=stage.clientWidth, SH=stage.clientHeight, v=st.view;
+  const horiz=c.w>=c.h, side=(v==='margenes'&&!horiz)?44:0, top=52, bottom=(v==='margenes'&&!horiz)?24:46, gutter=40;
+  const availW=SW-gutter*2-side, availH=SH-top-bottom;
+  const s=Math.max(.0001, Math.min(availW/c.w, availH/c.h));
+  const W=c.w*s, H=c.h*s, M=c.m*s, seg=c.base*s, G=c.g*s;
+  const ox=Math.round((SW-W-side)/2), oy=Math.round(top+(availH-H)/2);
+  const x0=ox+M, y0=oy+M, cw=W-2*M, ch=H-2*M, colW=(cw-(c.n-1)*G)/c.n;
+  let o=`<rect x="${ox}" y="${oy}" width="${W}" height="${H}" fill="var(--paper)"/>`;
+
+  if(v==='margenes' && M>0){
+    const a='fill="var(--tint)"';
+    o+=`<rect x="${ox}" y="${oy}" width="${W}" height="${M}" ${a}/><rect x="${ox}" y="${oy+H-M}" width="${W}" height="${M}" ${a}/>`;
+    o+=`<rect x="${ox}" y="${oy}" width="${M}" height="${H}" ${a}/><rect x="${ox+W-M}" y="${oy}" width="${M}" height="${H}" ${a}/>`;
+  }
+  if(v==='columnas'||v==='completa'){
+    if(colW>0) for(let i=0;i<c.n;i++) o+=`<rect x="${x0+i*(colW+G)}" y="${y0}" width="${colW}" height="${ch}" fill="var(--tint)"/>`;
+  }
+  if(v==='medianiles' && colW>0){
+    for(let i=1;i<c.n;i++){
+      const gx=x0+i*colW+(i-1)*G;
+      o+=`<rect x="${gx}" y="${y0}" width="${G}" height="${ch}" fill="var(--tint)"/>`;
+      o+=`<path d="M${gx},${y0+ch}V${oy+H}M${gx+G},${y0+ch}V${oy+H}" stroke="var(--line)" stroke-dasharray="3 3" fill="none"/>`;
+      if(M>=14 && G>=9) o+=txt(gx+G/2, oy+H-M/2, 'x', Math.min(13,G*.7,M*.45));
+    }
+  }
+  if(v==='margenes'||v==='completa'){
+    let d='';
+    for(let i=1;i<24;i++){ if(horiz){const x=ox+i*seg; d+=`M${x},${oy}V${oy+H}`} else {const y=oy+i*seg; d+=`M${ox},${y}H${ox+W}`} }
+    o+=`<path d="${d}" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="${v==='completa'?.45:.9}"/>`;
+  }
+  if(v!=='margenes' && M>0){
+    o+=`<path d="M${x0},${oy}V${oy+H}M${ox+W-M},${oy}V${oy+H}M${ox},${y0}H${ox+W}M${ox},${oy+H-M}H${ox+W}" stroke="var(--ekos)" stroke-width="1" fill="none"/>`;
+  }
+  if(M>=12){
+    const fs=Math.min(13, M*.42);
+    for(const [x,y] of [[ox+M/2,oy+M/2],[ox+W-M/2,oy+M/2],[ox+M/2,oy+H-M/2],[ox+W-M/2,oy+H-M/2]]) o+=txt(x,y,'x',fs);
+  }
+  o+=`<rect x="${ox+.5}" y="${oy+.5}" width="${W-1}" height="${H-1}" fill="none" stroke="var(--ekos)" stroke-width="1.5"/>`;
+
+  // cota inferior o lateral
+  const dim=(a,b,y,label)=>{const cx=(a+b)/2, half=label.length*3.6+12;
+    return `<path d="M${a},${y-6}V${y+6}M${b},${y-6}V${y+6}M${a},${y}H${Math.max(a,cx-half)}M${Math.min(b,cx+half)},${y}H${b}" stroke="var(--line)" stroke-dasharray="3 3" fill="none"/>`+txt(cx,y,label,14);};
+  if(v==='margenes'){
+    if(horiz) o+=dim(ox,ox+W,oy+H+24,'24 X');
+    else{ const x=ox+W+24, cy=oy+H/2; o+=`<path d="M${x-6},${oy}H${x+6}M${x-6},${oy+H}H${x+6}M${x},${oy}V${cy-14}M${x},${cy+14}V${oy+H}" stroke="var(--line)" stroke-dasharray="3 3" fill="none"/>`+txt(x,cy,'24 X',14); }
+  }else if(v==='medianiles'){
+    o+=dim(x0,x0+cw,oy+H+24,`medianil = ${st.gut} % de X`);
+  }else{
+    o+=dim(x0,x0+cw,oy+H+24,`${c.n} columnas`);
+  }
+  $('svg').innerHTML=o;
+
+  // texto de ejemplo
+  const cp=$('copy');
+  cp.hidden=!(st.text && cw>20 && ch>8);
+  if(cp.hidden) return;
+  // Mismo bloque y misma jerarquía en todas las vistas (como en Márgenes)
+  const tw=cw, th=ch;
+  Object.assign(cp.style,{left:x0+'px', top:y0+'px', width:tw+'px', height:th+'px'});
+  const hl=$('hl'), note=$('note'), extreme=c.ratio>=RATIO_LIMIT;
+  const showNote=!extreme && th>140 && tw>180;
+  note.hidden=!showNote;
+  cp.style.justifyContent = extreme ? 'center' : 'space-between';
+  note.style.fontSize=Math.max(9, Math.min(20, Math.min(tw,th)*.04))+'px';
+  // el tamaño del titular se calcula una vez con todos los textos y se usa igual en cada vista
+  const cands = extreme ? [`Margen ${num(c.m)} ${c.unit} · ${c.n} columnas`] : Object.values(TEXTS).map(t=>t[0]);
+  const notes = Object.values(TEXTS).map(t=>t[1]);
+  let roomH=th;
+  if(showNote){ let mx=0; for(const t of notes){ note.textContent=t; mx=Math.max(mx, note.offsetHeight); } roomH=th-mx; }
+  let fs=Math.max(8, Math.min(tw*(extreme?.16:.072), th*(extreme?.6:.16)));
+  for(const t of cands){
+    hl.textContent=t; hl.style.fontSize=fs+'px';
+    for(let i=0;i<60 && (hl.scrollHeight>roomH-fs*.6 || hl.scrollWidth>tw) && fs>7;i++){ fs*=.95; hl.style.fontSize=fs+'px'; }
+  }
+  hl.textContent = extreme ? cands[0] : TEXTS[v][0];
+  note.textContent = TEXTS[v][1];
+  hl.style.fontSize=fs+'px';
+}
+
+/* ---------- eventos ---------- */
+function readDim(id,key){ const v=parseFloat($(id).value); if(!(v>0)) return; st[key]=v; customChanged(); }
+$('iW').addEventListener('input',()=>readDim('iW','w'));
+$('iH').addEventListener('input',()=>readDim('iH','h'));
+$('bSwap').addEventListener('click',()=>{
+  const p=PRESETS.find(x=>x.id===st.preset);
+  [st.w,st.h]=[st.h,st.w];
+  if(p){ st.corr=!!p.star; st.corrTouched=false; }
+  customChanged();
+});
+$('unitSeg').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b||b.dataset.u===st.unit) return; st.unit=b.dataset.u; customChanged(); });
+$('colSeg').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; st.cols=+b.dataset.c; st.colsTouched=true; syncInputs(); update(); });
+$('viewSeg').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; st.view=b.dataset.v; syncInputs(); update(); });
+$('cCorr').addEventListener('change',e=>{
+  st.corr=e.target.checked; st.corrTouched=true;
+  if(st.preset){ const p=PRESETS.find(x=>x.id===st.preset); if(!!p.star!==st.corr) st.preset=null; }
+  syncInputs(); update();
+});
+$('rFactor').addEventListener('input',e=>{ st.factor=+e.target.value; $('oFactor').value=st.factor+'%'; update(); });
+$('rGut').addEventListener('input',e=>{ st.gut=+e.target.value; $('oGut').value=st.gut+'%'; update(); });
+$('vText').addEventListener('change',e=>{ st.text=e.target.checked; update(); });
+
+$('bCopy').addEventListener('click',()=>{
+  const c=calc(), u=c.unit;
+  const t=[
+    c.p?c.p.name:'Formato personalizado',
+    `Tamaño: ${num(c.w)} × ${num(c.h)} ${u} (${ratioLabel(c.w,c.h)})`,
+    `Margen (X): ${fmt(c.m,u)}${c.corrected?' — reducido por corrección óptica':''}`,
+    `Columnas: ${c.n}`,
+    `Medianil: ${fmt(c.g,u)} (${st.gut} % del margen)`,
+    `Ancho de columna: ${c.colW>0?fmt(c.colW,u):'no caben'}`,
+    `Área útil: ${num(c.cw)} × ${num(c.ch)} ${u}`,
+  ].join('\n');
+  try{ navigator.clipboard.writeText(t).then(()=>toast('Especificaciones copiadas'), ()=>fallback(t)); }catch(e){ fallback(t); }
+});
+function fallback(t){
+  const ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select(); let ok=false; try{ok=document.execCommand('copy')}catch(e){}
+  ta.remove(); toast(ok?'Especificaciones copiadas':'No se pudo copiar. Selecciona los datos del panel.');
+}
+let tt=0;
+function toast(m){const t=$('toast'); t.textContent=m; t.hidden=false; clearTimeout(tt); tt=setTimeout(()=>t.hidden=true,1800)}
+
+new ResizeObserver(()=>draw(calc())).observe($('stage'));
+if(document.fonts) document.fonts.ready.then(()=>draw(calc()));
+buildExamples(); syncInputs(); update();
+})();
+</script>
+</body>
+</html>
