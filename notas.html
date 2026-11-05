@@ -28,7 +28,7 @@
  body[data-tema="tra"] { --bg: var(--negro);  --ink: var(--blanco); --muted: var(--gray); --guide: var(--dark); --pill: var(--dark); }
  .spec .g, .escala-base { transition: background-color .6s var(--ease); }
  body { padding: 28px 28px 56px; min-height: 100vh; }
- button { font: inherit; color: inherit; background: none; cursor: pointer; }
+ button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
  /* ---------- Pestañas ---------- */
  .tabs { display: flex; flex-wrap: wrap; gap: 10px; }
  .tab { padding: 11px 26px; border: 1px solid var(--pill); border-radius: 999px; font-size: 17px; color: var(--muted);
@@ -48,9 +48,10 @@
  .notas p + p { margin-top: 14px; }
  /* ---------- Muestras ---------- */
  .muestras { min-width: 0; overflow: hidden; padding-top: 4px; }
- .fuente { display: inline-flex; border: 1px solid var(--pill); border-radius: 999px; padding: 3px; margin-bottom: 34px; }
- .fuente button { padding: 6px 16px; border-radius: 999px; font-size: 14px; color: var(--muted); transition: background .3s, color .3s; }
- .fuente button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+ .fuente { display: inline-flex; gap: 28px; margin-bottom: 34px; }
+ .fuente button { padding: 4px 0; font-size: 15px; color: var(--muted); border: 0; border-bottom: 1px solid transparent; transition: color .3s, border-color .3s; }
+ .fuente button:hover { color: var(--ink); }
+ .fuente button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
  .spec { position: relative; margin-bottom: 4px; }
  .spec .txt { display: block; white-space: nowrap; line-height: 1.12; padding: 0 0 0 32px; }
  .spec .g { position: absolute; left: 0; right: 0; height: 1px; background: var(--guide); top: var(--y, 0); }
