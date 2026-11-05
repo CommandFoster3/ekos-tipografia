@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="650" viewBox="0 0 440 650">
+<title>Ekos · Combinación 1 · Moderno</title>
+<style>
+@import url('https://api.fontshare.com/v2/css?f[]=sentient@400,500&amp;display=swap');
+@font-face { font-family: "Areal"; src: url("fonts/Areal-Regular.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Areal"; src: url("fonts/Areal-Bold.woff2") format("woff2"); font-weight: 700; }
+.sans  { font-family: "Areal", "ABC Areal", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.serif { font-family: "Sentient", Georgia, "Times New Roman", serif; }
+.card { cursor: default; outline: none; transition: transform .45s cubic-bezier(.2,.7,.2,1), color .45s cubic-bezier(.2,.7,.2,1); }
+.card .ink  { fill: currentColor; }
+.card .rule { stroke: currentColor; }
+.card .frame { transition: stroke .45s cubic-bezier(.2,.7,.2,1); }
+.card:hover, .card:focus { transform: translateY(-4px); }
+.c1 { color: #787878; } .c1 .frame { fill: #F2F2F2; stroke: #C4C4C4; }
+.c1:hover { color: #000000; } .c1:hover .frame { stroke: #787878; }
+.c2 { color: #C4C4C4; } .c2 .frame { fill: #787878; stroke: #787878; }
+.c2:hover { color: #F2F2F2; } .c2:hover .frame { stroke: #C4C4C4; }
+.c3 { color: #787878; } .c3 .frame { fill: #000000; stroke: #000000; }
+.c3:hover { color: #F2F2F2; } .c3:hover .frame { stroke: #333333; }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+</style>
+<g class="card c1" tabindex="0" role="img" aria-label="Combinación 1: Moderno">
+<rect class="frame" x="0.5" y="10.5" width="439" height="639" stroke-width="1"/>
+<text class="ink serif" x="32" y="88" font-size="44" font-weight="400">(1)</text>
+<text class="ink sans" x="408" y="68" font-size="13" font-weight="400" text-anchor="end">Moderno</text>
+<text class="ink sans" x="32" y="142" font-size="15"><tspan font-weight="700">Título:</tspan> Areal</text>
+<text class="ink sans" x="32" y="165" font-size="15"><tspan font-weight="700">Subtítulo:</tspan> Areal</text>
+<text class="ink sans" x="32" y="188" font-size="15"><tspan font-weight="700">Cuerpo de texto:</tspan> Areal</text>
+<line class="rule" x1="32" y1="220.5" x2="408" y2="220.5" stroke-width="1" stroke-opacity=".35"/>
+<text class="ink sans" x="32" y="314" font-size="60" font-weight="400" letter-spacing="-0.9">Core</text>
+<text class="ink sans" x="32" y="369.2" font-size="60" font-weight="400" letter-spacing="-0.9">Business</text>
+<text class="ink sans" x="32" y="421.2" font-size="22" font-weight="400">Somos la plataforma de</text>
+<text class="ink sans" x="32" y="446.2" font-size="22" font-weight="400">negocios donde se decide tu</text>
+<text class="ink sans" x="32" y="471.2" font-size="22" font-weight="400">hoy y tu mañana.</text>
+<text class="ink sans" x="32" y="514.2" font-size="13" font-weight="400">Ayudamos a quienes toman decisiones a</text>
+<text class="ink sans" x="32" y="532.2" font-size="13" font-weight="400">crear negocios rentables, duraderos y</text>
+<text class="ink sans" x="32" y="550.2" font-size="13" font-weight="400">respetuosos con la gente y el entorno.</text>
+<text class="ink sans" x="32" y="618" font-size="12" font-weight="400">Moderno</text>
+<text class="ink sans" x="408" y="618" font-size="12" font-weight="400" text-anchor="end">Serio</text>
+<line class="rule" x1="92" y1="614.5" x2="364" y2="614.5" stroke-width="1" stroke-opacity=".5"/>
+<circle class="ink" cx="92" cy="614.5" r="4.5"/>
+</g>
+</svg>
